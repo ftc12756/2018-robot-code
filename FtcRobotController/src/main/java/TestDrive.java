@@ -19,7 +19,7 @@ public class TestDrive extends LinearOpMode {
     private DcMotor rightDrive1 = null;
     private DcMotor leftDrive2 = null;
     private DcMotor rightDrive2 = null;
-    private Servo leftServo = null;
+    private Servo leftServo1 = null;
 
     @Override
     public void runOpMode() {
@@ -33,7 +33,7 @@ public class TestDrive extends LinearOpMode {
         rightDrive1 = hardwareMap.get(DcMotor.class, "right_drive1");
         leftDrive2 = hardwareMap.get(DcMotor.class, "left_drive2");
         rightDrive2 = hardwareMap.get(DcMotor.class, "right_drive2");
-        leftServo = hardwareMap.get (Servo.class, "left_servo1");
+        leftServo1 = hardwareMap.get (Servo.class, "left_servo1");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -78,7 +78,7 @@ public class TestDrive extends LinearOpMode {
             rightDrive2.setPower(rightPower);
 
             double          clawOffset      = 0;                       // Servo mid position
-            final double    CLAW_SPEED      = 0.02 ;                   // sets rate to move servo
+            final double    CLAW_SPEED      = 0.1 ;                   // sets rate to move servo
 
 
             // Use gamepad left & right Bumpers to open and close the claw
@@ -89,18 +89,16 @@ public class TestDrive extends LinearOpMode {
 
             // Move both servos to new position.  Assume servos are mirror image of each other.
            clawOffset = Range.clip(clawOffset, -0.5, 0.5);
-            //leftServo.setPosition(MID_SERVO + clawOffset);
+            //leftServo1.setPosition(MID_SERVO + clawOffset);
 
 
             // Use gamepad buttons to move arm up (Y) and down (A)
             //if (gamepad1.y)
-              //  leftServo.setPower(ARM_UP_POWER);
+              //  leftServo1.setPower(ARM_UP_POWER);
             //else if (gamepad1.a)
-              //  leftServo.setPower(ARM_DOWN_POWER);
+              //  leftServo1.setPower(ARM_DOWN_POWER);
             //else
-              //  leftServo.setPower(0.0);
-
-            leftServo.setPosition(clawOffset);
+              //  leftServo1.setPower(0.0);
 
             // Send telemetry message to signify robot running;
             telemetry.addData("claw",  "Offset = %.2f", clawOffset);
