@@ -123,10 +123,14 @@ public class Autonomous_Depot extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  36,  36, 5.0);  // S1: Forward 36 Inches with 5 Sec timeout
-        encoderDrive(TURN_SPEED,   10, -10, 4.0);  // S2: Turn Right 5 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, -12, -12, 4.0);  // S3: Reverse 12 Inches with 4 Sec timeout
-
+        encoderDrive(DRIVE_SPEED,  14,  14, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
+        encoderDrive(TURN_SPEED,   -9.5, 9.5, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, 34, 34, 4.0);  // S3: Reverse 12 Inches with 4 Sec timeout
+        encoderDrive(TURN_SPEED,   9.5, -9.5, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED,  14,  14, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
+        encoderDrive(TURN_SPEED,   4.75, -4.75, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED,  43,  43, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
+        
 
         sleep(1000);     // pause for servos to move
 
