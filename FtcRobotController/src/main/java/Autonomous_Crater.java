@@ -79,7 +79,7 @@ public class Autonomous_Crater extends LinearOpMode {
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
 
-    static final double     EL_COUNTS_PER_MOTOR_REV    = 28.0 ;    // HD hex motor encoder is 28 see: http://www.revrobotics.com/content/docs/Encoder-Guide.pdf
+    static final double     EL_COUNTS_PER_MOTOR_REV    = 4.0 ;    // HD hex motor encoder is 28 see: http://www.revrobotics.com/content/docs/Encoder-Guide.pdf
     static final double     EL_DRIVE_GEAR_REDUCTION    = 72.0 ;     // This is < 1.0 if geared UP
     static final double     EL_WHEEL_DIAMETER_INCHES   = 1.17 ;     // For figuring circumference TODO: could change
     static final double     EL_COUNTS_PER_INCH         = (EL_COUNTS_PER_MOTOR_REV * EL_DRIVE_GEAR_REDUCTION) /
@@ -138,7 +138,7 @@ public class Autonomous_Crater extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
          // S1: Forward 12 Inches with 5 Sec timeout
-        elevatorDrive (RISE_SPEED, -3, 5);
+        elevatorDrive (RISE_SPEED, -1, 3);
         encoderDrive(DRIVE_SPEED,  14,  14, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
         encoderDrive(TURN_SPEED,   -9.5, 9.5, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
         encoderDrive(DRIVE_SPEED, 34, 34, 4.0);  // S3: Reverse 12 Inches with 4 Sec timeout
@@ -240,7 +240,7 @@ public class Autonomous_Crater extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newHeightTarget = riseDrive.getCurrentPosition() + (int)(heightInches * COUNTS_PER_INCH);
+            newHeightTarget = riseDrive.getCurrentPosition() + (int)(heightInches * EL_COUNTS_PER_INCH);
 
             //Set to the target position
             riseDrive.setTargetPosition(newHeightTarget);
@@ -261,10 +261,10 @@ public class Autonomous_Crater extends LinearOpMode {
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
                     (riseDrive.isBusy() ))
-
+            {
                 // Display it for the driver.
-                telemetry.addData("Elevator1",  "Running to %7d :%7d", newHeightTarget); {
-                riseDrive.getCurrentPosition();
+                telemetry.addData("Elevator1",  "Running to %7d: %7d", newHeightTarget,
+                                                    riseDrive.getCurrentPosition());
                 telemetry.update();
             }
 
