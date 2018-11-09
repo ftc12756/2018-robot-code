@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.robotcontroller;/* Copyright (c) 2017 FIRST. All rights reserved.
+package org.firstinspires.ftc.teamcode;/* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted (subject to the limitations in the disclaimer below) provided that
@@ -28,9 +28,9 @@ package org.firstinspires.ftc.robotcontroller;/* Copyright (c) 2017 FIRST. All r
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -60,36 +60,27 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Pushbot: Auto Drive By Encoder To Crater", group="Pushbot")
+@Autonomous(name="Pushbot: Auto Drive By Encoder To Depot", group="Pushbot")
 //@Disabled
-public class Autonomous_Crater extends LinearOpMode {
+public class Autonomous_Depot extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime     runtime = new ElapsedTime();
 
     private DcMotor leftDrive1 = null;
     private DcMotor rightDrive1 = null;
-    private DcMotor riseDrive = null;
-    //private DcMotor leftDrive2 = null;
-   // private DcMotor rightDrive2 = null;
+    private DcMotor leftDrive2 = null;
+    private DcMotor rightDrive2 = null;
 
     static final double     COUNTS_PER_MOTOR_REV    = 28.0 ;    // HD hex motor encoder is 28 see: http://www.revrobotics.com/content/docs/Encoder-Guide.pdf
     static final double     DRIVE_GEAR_REDUCTION    = 20.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 3.52 ;     // For figuring circumference TODO: could change
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-
-    static final double     EL_COUNTS_PER_MOTOR_REV    = 4.0 ;    // HD hex motor encoder is 28 see: http://www.revrobotics.com/content/docs/Encoder-Guide.pdf
-    static final double     EL_DRIVE_GEAR_REDUCTION    = 72.0 ;     // This is < 1.0 if geared UP
-    static final double     EL_WHEEL_DIAMETER_INCHES   = 1.17 ;     // For figuring circumference TODO: could change
-    static final double     EL_COUNTS_PER_INCH         = (EL_COUNTS_PER_MOTOR_REV * EL_DRIVE_GEAR_REDUCTION) /
-            (EL_WHEEL_DIAMETER_INCHES * 3.1415);
-
     static final double     DRIVE_SPEED             = 0.4;
     static final double     TURN_SPEED              = 0.3;
-    static final double     RISE_SPEED              = 0.2;
 
-//    @Override
+    @Override
     public void runOpMode() {
 
         /*
@@ -97,17 +88,15 @@ public class Autonomous_Crater extends LinearOpMode {
          */
         leftDrive1 = hardwareMap.get(DcMotor.class, "left_drive1");
         rightDrive1 = hardwareMap.get(DcMotor.class, "right_drive1");
-        riseDrive = hardwareMap.get(DcMotor.class, "rise_drive");
-        //leftDrive2 = hardwareMap.get(DcMotor.class, "left_drive2");
-        //rightDrive2 = hardwareMap.get(DcMotor.class, "right_drive2");
-
+        leftDrive2 = hardwareMap.get(DcMotor.class, "left_drive2");
+        rightDrive2 = hardwareMap.get(DcMotor.class, "right_drive2");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive1.setDirection(DcMotor.Direction.FORWARD);
         rightDrive1.setDirection(DcMotor.Direction.REVERSE);
-        //leftDrive2.setDirection(DcMotor.Direction.FORWARD);
-        //rightDrive2.setDirection(DcMotor.Direction.REVERSE);
+        leftDrive2.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive2.setDirection(DcMotor.Direction.REVERSE);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
@@ -115,13 +104,13 @@ public class Autonomous_Crater extends LinearOpMode {
 
         leftDrive1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       // leftDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //rightDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         leftDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-       // rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
@@ -129,16 +118,11 @@ public class Autonomous_Crater extends LinearOpMode {
                 rightDrive1.getCurrentPosition());
         telemetry.update();
 
-        telemetry.addData("Elevator0",  "Starting at %7d",
-                riseDrive.getCurrentPosition());
-        telemetry.update();
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-         // S1: Forward 12 Inches with 5 Sec timeout
-        elevatorDrive (RISE_SPEED, -1, 3);
         encoderDrive(DRIVE_SPEED,  14,  14, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
         encoderDrive(TURN_SPEED,   -9.5, 9.5, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
         encoderDrive(DRIVE_SPEED, 34, 34, 4.0);  // S3: Reverse 12 Inches with 4 Sec timeout
@@ -146,7 +130,7 @@ public class Autonomous_Crater extends LinearOpMode {
         encoderDrive(DRIVE_SPEED,  14,  14, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
         encoderDrive(TURN_SPEED,   4.75, -4.75, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
         encoderDrive(DRIVE_SPEED,  43,  43, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
-        
+
 
         sleep(1000);     // pause for servos to move
 
@@ -163,8 +147,8 @@ public class Autonomous_Crater extends LinearOpMode {
      *  3) Driver stops the opmode running.
      */
     public void encoderDrive(double speed,
-                                  double leftInches, double rightInches,
-                                  double timeoutS) {
+                             double leftInches, double rightInches,
+                             double timeoutS) {
         int newLeftTarget1;
         int newRightTarget1;
         int newLeftTarget2;
@@ -176,27 +160,27 @@ public class Autonomous_Crater extends LinearOpMode {
             // Determine new target position, and pass to motor controller
             newLeftTarget1 = leftDrive1.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
             newRightTarget1 = rightDrive1.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            //  newLeftTarget2 = leftDrive2.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            // newRightTarget2 = rightDrive2.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newLeftTarget2 = leftDrive2.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+            newRightTarget2 = rightDrive2.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
 
             //Set to the target position
             leftDrive1.setTargetPosition(newLeftTarget1);
             rightDrive1.setTargetPosition(newRightTarget1);
-            //leftDrive2.setTargetPosition(newLeftTarget2);
-            // rightDrive2.setTargetPosition(newRightTarget2);
+            leftDrive2.setTargetPosition(newLeftTarget2);
+            rightDrive2.setTargetPosition(newRightTarget2);
 
             // Turn On RUN_TO_POSITION
             leftDrive1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightDrive1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            //leftDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            //rightDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
             leftDrive1.setPower(Math.abs(speed));
             rightDrive1.setPower(Math.abs(speed));
-            //leftDrive2.setPower(Math.abs(speed));
-            //rightDrive2.setPower(Math.abs(speed));
+            leftDrive2.setPower(Math.abs(speed));
+            rightDrive2.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -206,75 +190,28 @@ public class Autonomous_Crater extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftDrive1.isBusy() || rightDrive1.isBusy() ))
-                //  leftDrive2.isBusy() || rightDrive2.isBusy()))
+                    (leftDrive1.isBusy() || rightDrive1.isBusy() ||
+                    leftDrive2.isBusy() || rightDrive2.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget1,  newRightTarget1); {
-                leftDrive1.getCurrentPosition();
-                rightDrive1.getCurrentPosition();
+                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget1,  newRightTarget1);
+                telemetry.addData("Path2",  "Running at %7d :%7d",
+                        leftDrive1.getCurrentPosition(),
+                        rightDrive1.getCurrentPosition());
                 telemetry.update();
             }
 
             // Stop all motion;
             leftDrive1.setPower(0);
             rightDrive1.setPower(0);
-            //leftDrive2.setPower(0);
-            //rightDrive2.setPower(0);
+            leftDrive2.setPower(0);
+            rightDrive2.setPower(0);
 
             // Turn off RUN_TO_POSITION
             leftDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            //leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            //rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            //  sleep(250);   // optional pause after each move
-        }
-    }
-    public void elevatorDrive(double speed,
-                                  double heightInches,
-                                  double timeoutS) {
-        int newHeightTarget;
-
-        // Ensure that the opmode is still active
-        if (opModeIsActive()) {
-
-            // Determine new target position, and pass to motor controller
-            newHeightTarget = riseDrive.getCurrentPosition() + (int)(heightInches * EL_COUNTS_PER_INCH);
-
-            //Set to the target position
-            riseDrive.setTargetPosition(newHeightTarget);
-
-            // Turn On RUN_TO_POSITION
-            riseDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            // reset the timeout time and start motion.
-            runtime.reset();
-            riseDrive.setPower(Math.abs(speed));
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (riseDrive.isBusy() ))
-            {
-                // Display it for the driver.
-                telemetry.addData("Elevator1",  "Running to %7d: %7d", newHeightTarget,
-                                                    riseDrive.getCurrentPosition());
-                telemetry.update();
-            }
-
-            // Stop all motion;
-            riseDrive.setPower(0);
-            //leftDrive2.setPower(0);
-            //rightDrive2.setPower(0);
-
-            // Turn off RUN_TO_POSITION
-            riseDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  sleep(250);   // optional pause after each move
         }

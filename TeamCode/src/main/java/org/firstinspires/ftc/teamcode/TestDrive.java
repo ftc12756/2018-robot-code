@@ -1,3 +1,5 @@
+package org.firstinspires.ftc.teamcode;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,7 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 
 
 
-@TeleOp(name="Test Motor1", group="Linear Opmode")
+@TeleOp(name="org.firstinspires.ftc.robotcontroller.internal.Test Motor1", group="Linear Opmode")
 //@Disabled
 
 
