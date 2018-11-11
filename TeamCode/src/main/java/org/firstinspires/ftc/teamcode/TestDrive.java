@@ -35,7 +35,7 @@ public class TestDrive extends LinearOpMode {
         rightDrive1 = hardwareMap.get(DcMotor.class, "right_drive1");
         leftDrive2 = hardwareMap.get(DcMotor.class, "left_drive2");
         rightDrive2 = hardwareMap.get(DcMotor.class, "right_drive2");
-        leftServo1 = hardwareMap.get (Servo.class, "left_servo1");
+        leftServo1 = hardwareMap.get (Servo.class, "arm");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery

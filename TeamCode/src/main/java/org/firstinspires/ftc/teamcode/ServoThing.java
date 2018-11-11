@@ -74,10 +74,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 
             // Scan servo till stop pressed.
             while(opModeIsActive()){
-                double armAngle = gamepad2.left_stick_y;
-
+                double armAngle = -gamepad2.left_stick_y;
+                // ignore negative movement.
+                if(armAngle < 0)
+                    armAngle=0;
                 //Map joystick from -1 to 1 range to 0 to 1
-                armAngle = (armAngle+1)/2;
+                //armAngle = (armAngle+1)/2;
 
                 // Display the current value
                 telemetry.addData("Servo Position", "%5.2f", armAngle);
