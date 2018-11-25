@@ -31,6 +31,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -70,17 +72,25 @@ public class Autonomous_Crater extends LinearOpMode {
     private DcMotor leftDrive1 = null;
     private DcMotor rightDrive1 = null;
     private DcMotor riseDrive = null;
-    //private DcMotor leftDrive2 = null;
-   // private DcMotor rightDrive2 = null;
+    private DcMotor leftDrive2 = null;
+    private DcMotor rightDrive2 = null;
+    private DcMotor PacDrive = null;
+    private Servo colorServo = null;
 
-    static final double     COUNTS_PER_MOTOR_REV    = 28.0 ;    // HD hex motor encoder is 28 see: http://www.revrobotics.com/content/docs/Encoder-Guide.pdf
-    static final double     DRIVE_GEAR_REDUCTION    = 20.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 3.52 ;     // For figuring circumference TODO: could change
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double     DC_COUNTS_PER_MOTOR_REV    = 28.0 ;    // Core hex motor encoder is 28 see: http://www.revrobotics.com/content/docs/Encoder-Guide.pdf
+    static final double     DC_DRIVE_GEAR_REDUCTION    = 20.0 ;     // This is < 1.0 if geared UP
+    static final double     DC_WHEEL_DIAMETER_INCHES   = 3.52 ;     // For figuring circumference TODO: could change
+    static final double     DC_COUNTS_PER_INCH         = (DC_COUNTS_PER_MOTOR_REV * DC_DRIVE_GEAR_REDUCTION) /
+            (DC_WHEEL_DIAMETER_INCHES * 3.1415);
 
-    static final double     EL_COUNTS_PER_MOTOR_REV    = 4.0 ;    // HD hex motor encoder is 28 see: http://www.revrobotics.com/content/docs/Encoder-Guide.pdf
-    static final double     EL_DRIVE_GEAR_REDUCTION    = 72.0 ;     // This is < 1.0 if geared UP
+    static final double     HD_COUNTS_PER_MOTOR_REV    = 28.0 ;    // HD hex motor encoder is 28 see: http://www.revrobotics.com/content/docs/Encoder-Guide.pdf
+    static final double     HD_DRIVE_GEAR_REDUCTION    = 20.0 ;     // This is < 1.0 if geared UP
+    static final double     HD_WHEEL_DIAMETER_INCHES   = 4 ;     // For figuring circumference TODO: could change
+    static final double     HD_COUNTS_PER_INCH         = (HD_COUNTS_PER_MOTOR_REV * HD_DRIVE_GEAR_REDUCTION) /
+            (HD_WHEEL_DIAMETER_INCHES * 3.1415);
+
+    static final double     EL_COUNTS_PER_MOTOR_REV    = 4.0 ;    // torquenado  motor encoder is 6 see: http://www.revrobotics.com/content/docs/Encoder-Guide.pdf
+    static final double     EL_DRIVE_GEAR_REDUCTION    = 60.0 ;     // This is < 1.0 if geared UP
     static final double     EL_WHEEL_DIAMETER_INCHES   = 1.17 ;     // For figuring circumference TODO: could change
     static final double     EL_COUNTS_PER_INCH         = (EL_COUNTS_PER_MOTOR_REV * EL_DRIVE_GEAR_REDUCTION) /
             (EL_WHEEL_DIAMETER_INCHES * 3.1415);
@@ -88,6 +98,7 @@ public class Autonomous_Crater extends LinearOpMode {
     static final double     DRIVE_SPEED             = 0.4;
     static final double     TURN_SPEED              = 0.3;
     static final double     RISE_SPEED              = 0.2;
+    static final double     FORWARD_SPEED = 0.6; //for the PacDrive
 
 //    @Override
     public void runOpMode() {
@@ -98,16 +109,16 @@ public class Autonomous_Crater extends LinearOpMode {
         leftDrive1 = hardwareMap.get(DcMotor.class, "left_drive1");
         rightDrive1 = hardwareMap.get(DcMotor.class, "right_drive1");
         riseDrive = hardwareMap.get(DcMotor.class, "rise_drive");
-        //leftDrive2 = hardwareMap.get(DcMotor.class, "left_drive2");
-        //rightDrive2 = hardwareMap.get(DcMotor.class, "right_drive2");
+        leftDrive2 = hardwareMap.get(DcMotor.class, "left_drive2");
+        rightDrive2 = hardwareMap.get(DcMotor.class, "right_drive2");
 
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDrive1.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive1.setDirection(DcMotor.Direction.REVERSE);
-        //leftDrive2.setDirection(DcMotor.Direction.FORWARD);
-        //rightDrive2.setDirection(DcMotor.Direction.REVERSE);
+        leftDrive1.setDirection(DcMotor.Direction.REVERSE);
+        rightDrive1.setDirection(DcMotor.Direction.FORWARD);
+        leftDrive2.setDirection(DcMotor.Direction.REVERSE);
+        rightDrive2.setDirection(DcMotor.Direction.FORWARD);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
@@ -115,18 +126,22 @@ public class Autonomous_Crater extends LinearOpMode {
 
         leftDrive1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightDrive1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       // leftDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //rightDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrive2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        riseDrive.setMode (DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         leftDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-       // rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        riseDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
                 leftDrive1.getCurrentPosition(),
-                rightDrive1.getCurrentPosition());
+                rightDrive1.getCurrentPosition(),
+                leftDrive2.getCurrentPosition(),
+                rightDrive2.getCurrentPosition() );
         telemetry.update();
 
         telemetry.addData("Elevator0",  "Starting at %7d",
@@ -143,12 +158,16 @@ public class Autonomous_Crater extends LinearOpMode {
         encoderDrive(TURN_SPEED,   -9.5, 9.5, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
         encoderDrive(DRIVE_SPEED, 34, 34, 4.0);  // S3: Reverse 12 Inches with 4 Sec timeout
         encoderDrive(TURN_SPEED,   9.5, -9.5, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
+
         encoderDrive(DRIVE_SPEED,  14,  14, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
         encoderDrive(TURN_SPEED,   4.75, -4.75, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
         encoderDrive(DRIVE_SPEED,  43,  43, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
-        
+            PacDrive.setPower(FORWARD_SPEED);
+            runtime.reset();
+            while (opModeIsActive() && (runtime.seconds() < 1.5))
 
-        sleep(1000);     // pause for servos to move
+
+            sleep(1000);     // pause for servos to move
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -170,33 +189,36 @@ public class Autonomous_Crater extends LinearOpMode {
         int newLeftTarget2;
         int newRightTarget2;
 
+
+
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget1 = leftDrive1.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget1 = rightDrive1.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            //  newLeftTarget2 = leftDrive2.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            // newRightTarget2 = rightDrive2.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newLeftTarget1 = leftDrive1.getCurrentPosition() + (int)(leftInches * DC_COUNTS_PER_INCH);
+            newRightTarget1 = rightDrive1.getCurrentPosition() + (int)(rightInches * DC_COUNTS_PER_INCH);
+            newLeftTarget2 = leftDrive2.getCurrentPosition() + (int)(leftInches * HD_COUNTS_PER_INCH);
+            newRightTarget2 = rightDrive2.getCurrentPosition() + (int)(rightInches * HD_COUNTS_PER_INCH);
+
 
             //Set to the target position
             leftDrive1.setTargetPosition(newLeftTarget1);
             rightDrive1.setTargetPosition(newRightTarget1);
-            //leftDrive2.setTargetPosition(newLeftTarget2);
-            // rightDrive2.setTargetPosition(newRightTarget2);
+            leftDrive2.setTargetPosition(newLeftTarget2);
+             rightDrive2.setTargetPosition(newRightTarget2);
 
             // Turn On RUN_TO_POSITION
             leftDrive1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rightDrive1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            //leftDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            //rightDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightDrive2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
             leftDrive1.setPower(Math.abs(speed));
             rightDrive1.setPower(Math.abs(speed));
-            //leftDrive2.setPower(Math.abs(speed));
-            //rightDrive2.setPower(Math.abs(speed));
+            leftDrive2.setPower(Math.abs(speed));
+            rightDrive2.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -206,8 +228,8 @@ public class Autonomous_Crater extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutS) &&
-                    (leftDrive1.isBusy() || rightDrive1.isBusy() ))
-                //  leftDrive2.isBusy() || rightDrive2.isBusy()))
+                    (leftDrive1.isBusy() || rightDrive1.isBusy() ) &&
+                leftDrive2.isBusy() || rightDrive2.isBusy())
 
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget1,  newRightTarget1); {
@@ -219,14 +241,16 @@ public class Autonomous_Crater extends LinearOpMode {
             // Stop all motion;
             leftDrive1.setPower(0);
             rightDrive1.setPower(0);
-            //leftDrive2.setPower(0);
-            //rightDrive2.setPower(0);
+            leftDrive2.setPower(0);
+            rightDrive2.setPower(0);
+            riseDrive.setPower(0);
+            PacDrive.setPower(0);
 
             // Turn off RUN_TO_POSITION
             leftDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightDrive1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            //leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            //rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightDrive2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             //  sleep(250);   // optional pause after each move
         }
@@ -270,8 +294,8 @@ public class Autonomous_Crater extends LinearOpMode {
 
             // Stop all motion;
             riseDrive.setPower(0);
-            //leftDrive2.setPower(0);
-            //rightDrive2.setPower(0);
+            leftDrive2.setPower(0);
+            rightDrive2.setPower(0);
 
             // Turn off RUN_TO_POSITION
             riseDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
