@@ -27,6 +27,7 @@ public class TestDrive extends LinearOpMode {
     private DcMotor PacDrive = null;
     private CRServo hookServo = null;
     private CRServo stomachServo = null;
+    private Servo colorServo = null;
 
     @Override
     public void runOpMode() {
@@ -41,9 +42,10 @@ public class TestDrive extends LinearOpMode {
         leftDrive2 = hardwareMap.get(DcMotor.class, "left_drive2");
         rightDrive2 = hardwareMap.get(DcMotor.class, "right_drive2");
         riseDrive = hardwareMap.get (DcMotor.class, "rise_drive");
+        PacDrive = hardwareMap.get (DcMotor.class, "pac_drive");
         hookServo = hardwareMap.get (CRServo.class, "hook_servo");
         stomachServo = hardwareMap.get (CRServo.class, "scoop_servo");
-        PacDrive = hardwareMap.get (DcMotor.class, "pac_drive");
+        colorServo = hardwareMap.get (Servo.class, "color_servo");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -68,6 +70,8 @@ public class TestDrive extends LinearOpMode {
             double riseScale = .2;
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
+            double PacPower;
+            double PacScale = 0.2;
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
@@ -109,20 +113,14 @@ public class TestDrive extends LinearOpMode {
             if (gamepad2.y)
                 hookServo.setPower(0.5);
 
-            if (gamepad2.b)
-                hookServo.setPower(0);
-
             if (gamepad2.x)
                 hookServo.setPower(-0.5);
 
-            if (gamepad2.dpad_up)
-                PacDrive.setPower(0.5);
-
-            if (gamepad2.dpad_down)
-                PacDrive.setPower(-0.5);
-
             risePower = (gamepad2.left_stick_y * riseScale);
             riseDrive.setPower(risePower);
+
+            PacPower = (gamepad2.right_stick_y * PacScale);
+            PacDrive.setPower(PacPower);
 
               //  leftServo1.setPower(ARM_DOWN_POWER);
             //else
