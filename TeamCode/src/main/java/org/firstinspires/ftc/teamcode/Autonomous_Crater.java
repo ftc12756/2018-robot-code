@@ -121,7 +121,7 @@ public class Autonomous_Crater extends LinearOpMode {
         hookServo = hardwareMap.get(CRServo.class, "hook_servo");
         stomachServo = hardwareMap.get(CRServo.class, "scoop_servo");
         colorServo = hardwareMap.get(Servo.class, "color_servo");
-        colorSensor = hardwareMap.colorSensor.get("sensor_color");
+        colorSensor = hardwareMap.get(ColorSensor.class,"sensor_color");
 
 
         // Most robots need the motor on one side to be reversed to drive forward
@@ -158,6 +158,11 @@ public class Autonomous_Crater extends LinearOpMode {
         telemetry.addData("Elevator0", "Starting at %7d",
                 riseDrive.getCurrentPosition());
         telemetry.update();
+
+        hookSet(0.5);
+        stomachServo.setPower(0);
+        colorSet(0);
+
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

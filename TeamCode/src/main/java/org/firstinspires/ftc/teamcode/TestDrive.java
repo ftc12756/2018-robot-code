@@ -49,7 +49,7 @@ public class TestDrive extends LinearOpMode {
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDrive1.setDirection(DcMotor.Direction.REVERSE);
+        leftDrive1.setDirection(DcMotor.Direction.FORWARD);
         rightDrive1.setDirection(DcMotor.Direction.FORWARD);
         leftDrive2.setDirection(DcMotor.Direction.REVERSE);
         rightDrive2.setDirection(DcMotor.Direction.FORWARD);
@@ -65,9 +65,9 @@ public class TestDrive extends LinearOpMode {
             double leftPower;
             double rightPower;
             // Speed scale is for matching speed for 2 different motor gear ratios (front vs. rear)
-            double speedScale = 72.0 / 90.0;
+            double speedScale = 80.0 / 90.0;
             double risePower = 1.0;
-            double riseScale = .2;
+            double riseScale = .5;
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
             double PacPower;
@@ -77,8 +77,8 @@ public class TestDrive extends LinearOpMode {
             // - This uses basic math to combine motions and is easier to drive straight.
             double drive = -gamepad1.left_stick_y;
             double turn  =  gamepad1.left_stick_x;
-            leftPower    = Range.clip(drive + turn, -0.5, 0.5) ;
-            rightPower   = Range.clip(drive - turn, -0.5, 0.5) ;
+            leftPower    = Range.clip(drive + turn, -0.4, 0.4) ;
+            rightPower   = Range.clip(drive - turn, -0.4, 0.4) ;
 
             //servo controls
 
@@ -94,20 +94,7 @@ public class TestDrive extends LinearOpMode {
             leftDrive2.setPower(leftPower);
             rightDrive2.setPower(rightPower);
 
-            double          stomachOffSet      = 0;                       // Servo mid position
-            final double    STOMACH_SPEED      = 0.1 ;                   // sets rate to move servo
-
-
-            // Use gamepad left & right Bumpers to open and close the claw
-            if (gamepad2.right_bumper)
-                stomachOffSet += STOMACH_SPEED;
-            else if (gamepad2.left_bumper)
-                stomachOffSet -= STOMACH_SPEED;
-
-            // Move both servos to new position.  Assume servos are mirror image of each other.
-           stomachOffSet = Range.clip(stomachOffSet, -0.5, 0.5);
-            //leftServo1.setPosition(MID_SERVO + stomachOffSet);
-
+            stomachServo.setPower(gamepad1.right_stick_y);
 
             // Use gamepad buttons to move arm up (Y) and down (A)
             if (gamepad2.y)
@@ -127,7 +114,6 @@ public class TestDrive extends LinearOpMode {
               //  leftServo1.setPower(0.0);
 
             // Send telemetry message to signify robot running;
-            telemetry.addData("Stomach",  "Offset = %.2f", stomachOffSet);
             telemetry.addData("Rise",  "Power = %.2f", risePower);
 
             // Show the elapsed game time and wheel power.
