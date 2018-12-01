@@ -169,19 +169,13 @@ public class Autonomous_Depot extends LinearOpMode {
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // S1: Forward 12 Inches with 5 Sec timeout
         elevatorDrive(RISE_SPEED, -100, 2);//Step 1: lower the robot arm
-        sleep(2000);
         hookSet(-0.5); //Step 2: hook servo rotate
-        sleep(1000);
         // Reverse the robot so it doesn't go OOF on the lander
         //elevatorDrive(RISE_SPEED, 80, 2);
         //sleep(2000);
         encoderDrive(DRIVE_SPEED, -20, -20, 4.0);  // S1: Forward 12 Inches with 5 Sec timeout
-        sleep(4000);
-        // .
         encoderDrive(TURN_SPEED, 9.5, -9.5, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
-        sleep(4000);
         encoderDrive(DRIVE_SPEED, -20, -20, 4.0);
-        sleep(4000);
         double armDown = 0.4;
         colorSet(armDown);
 
@@ -222,15 +216,10 @@ public class Autonomous_Depot extends LinearOpMode {
         }
 
         encoderDrive(DRIVE_SPEED, 15, 15, 2.0);  // S3: Reverse 12 Inches with 4 Sec timeout
-        sleep(2000);
         encoderDrive(TURN_SPEED, 4.75, -4.75, 2.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
-        sleep(2000);
         encoderDrive(DRIVE_SPEED, 38, 38, 2.0);  // S1: Forward 12 Inches with 5 Sec timeout
-        sleep(2000);
         encoderDrive(TURN_SPEED, 9.5, -9.5, 2);
-        sleep(2000);
         encoderDrive(DRIVE_SPEED, 92, 92, 2);
-        sleep(2000);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.5))
 
