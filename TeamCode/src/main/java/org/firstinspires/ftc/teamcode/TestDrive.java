@@ -71,14 +71,14 @@ public class TestDrive extends LinearOpMode {
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
             double PacPower;
-            double PacScale = 0.2;
+            double PacScale = 0.6;
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
             double drive = -gamepad1.left_stick_y;
             double turn  =  gamepad1.left_stick_x;
-            leftPower    = Range.clip(drive + turn, -0.4, 0.4) ;
-            rightPower   = Range.clip(drive - turn, -0.4, 0.4) ;
+            leftPower    = Range.clip(drive + turn, -0.5, 0.5) ;
+            rightPower   = Range.clip(drive - turn, -0.5, 0.5) ;
 
             //servo controls
 
@@ -102,7 +102,12 @@ public class TestDrive extends LinearOpMode {
 
             if (gamepad2.x)
                 hookServo.setPower(-0.5);
-
+            if (gamepad2.a)
+                colorServo.setPosition(0);
+            if (gamepad1.a)
+                stomachServo.setPower(-0.75);
+            if (gamepad1.b)
+                stomachServo.setPower(1);
             risePower = (gamepad2.left_stick_y * riseScale);
             riseDrive.setPower(risePower);
 

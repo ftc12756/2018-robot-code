@@ -66,7 +66,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Pushbot: Auto Drive By Encoder To Crater", group="Pushbot")
+@Autonomous(name="Autonomous Crater side", group="Pushbot")
 //@Disabled
 public class Autonomous_Crater extends LinearOpMode {
 
@@ -105,7 +105,7 @@ public class Autonomous_Crater extends LinearOpMode {
     static final double DRIVE_SPEED = 0.4;
     static final double TURN_SPEED = 0.3;
     static final double RISE_SPEED = 0.2;
-    static final double PAC_SPEED = 0.6; //for the PacDrive
+    static final double PAC_SPEED = 1; //for the PacDrive
 
     //    @Override
     public void runOpMode() {
@@ -126,7 +126,7 @@ public class Autonomous_Crater extends LinearOpMode {
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDrive1.setDirection(DcMotor.Direction.REVERSE);
+        leftDrive1.setDirection(DcMotor.Direction.FORWARD);
         rightDrive1.setDirection(DcMotor.Direction.FORWARD);
         leftDrive2.setDirection(DcMotor.Direction.REVERSE);
         rightDrive2.setDirection(DcMotor.Direction.FORWARD);
@@ -159,23 +159,31 @@ public class Autonomous_Crater extends LinearOpMode {
                 riseDrive.getCurrentPosition());
         telemetry.update();
 
-        hookSet(0.5);
-        stomachServo.setPower(0);
-        colorSet(0);
-
+        hookSet(-0.5);
+        stomachServo.setPower(-1);
+        colorSet(1);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // S1: Forward 12 Inches with 5 Sec timeout
-        elevatorDrive(RISE_SPEED, 1, 3);
-        hookSet(-0.5);
+        elevatorDrive(RISE_SPEED, -80, 4.0);
+        sleep(4000);
+        hookSet(0.5);
+        sleep(1000);
+        encoderDrive(DRIVE_SPEED, -5, -5, 2.0);
+        sleep(2000);
         // Reverse the robot so it doesn't go OOF on the lander
-        elevatorDrive(RISE_SPEED, -1, 3);
-        encoderDrive(DRIVE_SPEED, 14, 14, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
-        encoderDrive(TURN_SPEED, -9.5, 9.5, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
-        double armDown = 0.6;
+       // elevatorDrive(RISE_SPEED, 80, 2.0);
+        //sleep(2000);
+        encoderDrive(DRIVE_SPEED, -15, -15, 4.0);  // S1: Forward 12 Inches with 5 Sec timeout
+        sleep(4000);
+        encoderDrive(TURN_SPEED, 9.5, -9.5, 3.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
+        sleep(3000);
+        encoderDrive(DRIVE_SPEED, -20, -20, 4.0);
+        sleep(4000);
+        double armDown = 0.4;
         colorSet(armDown);
 
         //Start Color Sensing
@@ -191,36 +199,36 @@ public class Autonomous_Crater extends LinearOpMode {
         if (colorSensor.alpha() < 1000) {
             telemetry.addData("Unobtainium: ", "Gold");
             encoderDrive(DRIVE_SPEED, 2, 2, 3);
-            colorSet(0);
+            colorSet(1);
+            encoderDrive(DRIVE_SPEED, 27, 27, 2);
         } else {
-            colorSet(0);
+            colorSet(1);
             encoderDrive(DRIVE_SPEED, 14.5, 14.5, 2.5);
             colorSet(armDown);
 
             if (colorSensor.alpha() < 1000) {
                 telemetry.addData("Unobtainium: ", "Gold");
                 encoderDrive(DRIVE_SPEED, 2, 2, 3);
-                colorSet(0);
+                colorSet(1);
+                encoderDrive(DRIVE_SPEED, 12.5, 12.5, 2);
+
             } else {
-                colorSet(0);
+                colorSet(1);
                 encoderDrive(DRIVE_SPEED, 14.5, 14.5, 2.5);
                 colorSet(armDown);
                 encoderDrive(DRIVE_SPEED, 2, 2, 3);
-                colorSet(0);
+                colorSet(1);
             }
 
         }
 
-        encoderDrive(DRIVE_SPEED, 34, 34, 4.0);  // S3: Reverse 12 Inches with 4 Sec timeout
-        encoderDrive(TURN_SPEED, 9.5, -9.5, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
-
-        encoderDrive(DRIVE_SPEED, 14, 14, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
-        encoderDrive(TURN_SPEED, 4.75, -4.75, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, 43, 43, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
-        eatDrive(PAC_SPEED, 2, 3);
+        encoderDrive(DRIVE_SPEED, 23, 23, 4.0);  // S3: Reverse 12 Inches with 4 Sec timeout
+        encoderDrive(TURN_SPEED, -4.75, 4.75, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, 55, 55, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
+        eatDrive(PAC_SPEED, 3, 2);
+        encoderDrive(DRIVE_SPEED, -92, -92, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.5))
-
 
             sleep(1000);     // pause for servos to move
 
