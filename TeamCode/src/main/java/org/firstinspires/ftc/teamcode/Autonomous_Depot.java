@@ -121,6 +121,7 @@ public class Autonomous_Depot extends LinearOpMode {
         stomachServo = hardwareMap.get(CRServo.class, "scoop_servo");
         colorServo = hardwareMap.get(Servo.class, "color_servo");
         colorSensor = hardwareMap.get(ColorSensor.class,"sensor_color");
+        PacDrive = hardwareMap.get(DcMotor.class, "pac_drive");
 
 
         // Most robots need the motor on one side to be reversed to drive forward
@@ -169,7 +170,7 @@ public class Autonomous_Depot extends LinearOpMode {
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // S1: Forward 12 Inches with 5 Sec timeout
         elevatorDrive(RISE_SPEED, -100, 2);//Step 1: lower the robot arm
-        hookSet(-0.5); //Step 2: hook servo rotate
+        hookSet(0.5); //Step 2: hook servo rotate
         // Reverse the robot so it doesn't go OOF on the lander
         //elevatorDrive(RISE_SPEED, 80, 2);
         //sleep(2000);

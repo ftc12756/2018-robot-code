@@ -169,20 +169,20 @@ public class Autonomous_Crater extends LinearOpMode {
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // S1: Forward 12 Inches with 5 Sec timeout
         elevatorDrive(RISE_SPEED, -80, 4.0);
-        sleep(4000);
+        //sleep(4000);
         hookSet(0.5);
-        sleep(1000);
+        //sleep(1000);
         encoderDrive(DRIVE_SPEED, -5, -5, 2.0);
-        sleep(2000);
+        //sleep(2000);
         // Reverse the robot so it doesn't go OOF on the lander
        // elevatorDrive(RISE_SPEED, 80, 2.0);
         //sleep(2000);
         encoderDrive(DRIVE_SPEED, -15, -15, 4.0);  // S1: Forward 12 Inches with 5 Sec timeout
-        sleep(4000);
+        //sleep(4000);
         encoderDrive(TURN_SPEED, 9.5, -9.5, 3.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
-        sleep(3000);
+        //sleep(3000);
         encoderDrive(DRIVE_SPEED, -20, -20, 4.0);
-        sleep(4000);
+        //sleep(4000);
         double armDown = 0.4;
         colorSet(armDown);
 
@@ -230,7 +230,7 @@ public class Autonomous_Crater extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.5))
 
-            sleep(1000);     // pause for servos to move
+           // sleep(1000);     // pause for servos to move
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
