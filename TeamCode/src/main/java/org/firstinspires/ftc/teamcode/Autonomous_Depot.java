@@ -169,7 +169,7 @@ public class Autonomous_Depot extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // S1: Forward 12 Inches with 5 Sec timeout
-        elevatorDrive(RISE_SPEED, -100, 2);//Step 1: lower the robot arm
+        elevatorDrive(RISE_SPEED, -120, 2);//Step 1: lower the robot arm
         hookSet(0.5); //Step 2: hook servo rotate
         // Reverse the robot so it doesn't go OOF on the lander
         //elevatorDrive(RISE_SPEED, 80, 2);

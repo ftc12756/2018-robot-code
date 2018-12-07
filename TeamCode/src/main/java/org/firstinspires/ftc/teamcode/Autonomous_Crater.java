@@ -122,7 +122,7 @@ public class Autonomous_Crater extends LinearOpMode {
         stomachServo = hardwareMap.get(CRServo.class, "scoop_servo");
         colorServo = hardwareMap.get(Servo.class, "color_servo");
         colorSensor = hardwareMap.get(ColorSensor.class,"sensor_color");
-
+        PacDrive = hardwareMap.get(DcMotor.class, "pac_drive");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -168,16 +168,16 @@ public class Autonomous_Crater extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // S1: Forward 12 Inches with 5 Sec timeout
-        elevatorDrive(RISE_SPEED, -80, 4.0);
+        elevatorDrive(RISE_SPEED, -120, 4.0);
         //sleep(4000);
         hookSet(0.5);
         //sleep(1000);
-        encoderDrive(DRIVE_SPEED, -5, -5, 2.0);
+        //encoderDrive(DRIVE_SPEED, -5, -5, 2.0);
         //sleep(2000);
         // Reverse the robot so it doesn't go OOF on the lander
        // elevatorDrive(RISE_SPEED, 80, 2.0);
         //sleep(2000);
-        encoderDrive(DRIVE_SPEED, -15, -15, 4.0);  // S1: Forward 12 Inches with 5 Sec timeout
+        encoderDrive(DRIVE_SPEED, -20, -20, 4.0);  // S1: Forward 12 Inches with 5 Sec timeout
         //sleep(4000);
         encoderDrive(TURN_SPEED, 9.5, -9.5, 3.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
         //sleep(3000);
