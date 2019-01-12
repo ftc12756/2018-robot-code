@@ -25,8 +25,6 @@ public class TestDrive extends LinearOpMode {
     private DcMotor rightDrive2 = null;
     private DcMotor riseDrive = null;
     private DcMotor PacDrive = null;
-    private CRServo hookServo = null;
-    private CRServo stomachServo = null;
     private Servo colorServo = null;
 
     @Override
@@ -43,8 +41,6 @@ public class TestDrive extends LinearOpMode {
         rightDrive2 = hardwareMap.get(DcMotor.class, "right_drive2");
         riseDrive = hardwareMap.get (DcMotor.class, "rise_drive");
         PacDrive = hardwareMap.get (DcMotor.class, "pac_drive");
-        hookServo = hardwareMap.get (CRServo.class, "hook_servo");
-        stomachServo = hardwareMap.get (CRServo.class, "scoop_servo");
         colorServo = hardwareMap.get (Servo.class, "color_servo");
 
         // Most robots need the motor on one side to be reversed to drive forward
@@ -94,20 +90,11 @@ public class TestDrive extends LinearOpMode {
             leftDrive2.setPower(leftPower);
             rightDrive2.setPower(rightPower);
 
-            stomachServo.setPower(gamepad1.right_stick_y);
 
             // Use gamepad buttons to move arm up (Y) and down (A)
-            if (gamepad2.y)
-                hookServo.setPower(0.5);
 
-            if (gamepad2.x)
-                hookServo.setPower(-0.5);
             if (gamepad2.a)
                 colorServo.setPosition(0);
-            if (gamepad1.a)
-                stomachServo.setPower(-0.75);
-            if (gamepad1.b)
-                stomachServo.setPower(1);
             risePower = (gamepad2.left_stick_y * riseScale);
             riseDrive.setPower(risePower);
 
