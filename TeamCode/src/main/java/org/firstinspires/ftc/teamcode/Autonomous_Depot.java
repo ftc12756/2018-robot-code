@@ -99,8 +99,8 @@ public class Autonomous_Depot extends LinearOpMode {
     static final double EL_COUNTS_PER_INCH = (EL_COUNTS_PER_MOTOR_REV * EL_DRIVE_GEAR_REDUCTION) /
             (EL_WHEEL_DIAMETER_INCHES * 3.1415);
 
-    static final double DRIVE_SPEED = 0.4;
-    static final double TURN_SPEED = 0.3;
+    static final double DRIVE_SPEED = 0.25;
+    static final double TURN_SPEED = 0.2;
     static final double RISE_SPEED = 0.2;
     static final double PAC_SPEED = 1; //for the PacDrive
 
@@ -122,8 +122,8 @@ public class Autonomous_Depot extends LinearOpMode {
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDrive1.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive1.setDirection(DcMotor.Direction.FORWARD);
+        leftDrive1.setDirection(DcMotor.Direction.REVERSE);
+        rightDrive1.setDirection(DcMotor.Direction.REVERSE);
         leftDrive2.setDirection(DcMotor.Direction.FORWARD);
         rightDrive2.setDirection(DcMotor.Direction.REVERSE);
 
@@ -157,19 +157,21 @@ public class Autonomous_Depot extends LinearOpMode {
 //Initialize Start
         colorSet(1);
 //Initialize End
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // S1: Forward 12 Inches with 5 Sec timeout
-        elevatorDrive(RISE_SPEED, -140, 6.0);//Step 1: lower the robot arm
-        // Reverse the robot so it doesn't go OOF on the lander
-        //elevatorDrive(RISE_SPEED, 80, 2);
-        //sleep(2000);
-        encoderDrive(DRIVE_SPEED, 18.75, 18.75, 4.0);  // S1: Forward 12 Inches with 5 Sec timeout
-        encoderDrive(TURN_SPEED, -9.5, 9.5, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, -20, -20, 4.0);
+        elevatorDrive(RISE_SPEED, -230, 8.0);//Step 1: lower the robot arm
+        encoderDrive(DRIVE_SPEED, 0.5, 0.5, 2.0);
+        encoderDrive(DRIVE_SPEED, 1, 1, 2.0); // Wiggling bot to free from lander
+        encoderDrive(TURN_SPEED, 1, -1, 2.0);
+        encoderDrive(TURN_SPEED, -1, 1, 2.0);
+        encoderDrive(TURN_SPEED, 1, -1, 2.0);
+        encoderDrive(TURN_SPEED, -1, 1, 2.0);
+        encoderDrive(DRIVE_SPEED, 17.75, 17.75, 6.0);  // S1: Forward 17.75 Inches with 6 Sec timeout
+        encoderDrive(TURN_SPEED, 9.5, -9.5, 5.0);  // S2: Turn Left 9.5 Inches with 5 Sec timeout
+        encoderDrive(DRIVE_SPEED, -20, -20, 7.0);
         double armDown = 0.4;
         colorSet(armDown);
 
@@ -185,36 +187,36 @@ public class Autonomous_Depot extends LinearOpMode {
         Color.RGBToHSV(colorSensor.red(), colorSensor.green(), colorSensor.blue(), hsvValues);
         if (colorSensor.alpha() < 1000) {
             telemetry.addData("Unobtainium: ", "Gold");
-            encoderDrive(DRIVE_SPEED, 2, 2, 3);
+            encoderDrive(DRIVE_SPEED, 2, 2, 6);
             colorSet(1);
-            encoderDrive(DRIVE_SPEED, 27, 27, 2);
+            encoderDrive(DRIVE_SPEED, 27, 27, 8);
         } else {
             colorSet(1);
-            encoderDrive(DRIVE_SPEED, 14.5, 14.5, 2);
+            encoderDrive(DRIVE_SPEED, 14.5, 14.5, 6);
             colorSet(armDown);
 
             if (colorSensor.alpha() < 1000) {
                 telemetry.addData("Unobtainium: ", "Gold");
-                encoderDrive(DRIVE_SPEED, 2, 2, 3);
+                encoderDrive(DRIVE_SPEED, 2, 2, 6);
                 colorSet(1);
-                encoderDrive(DRIVE_SPEED, 12.5, 12.5, 2);
+                encoderDrive(DRIVE_SPEED, 12.5, 12.5, 8);
 
             } else {
                 colorSet(1);
-                encoderDrive(DRIVE_SPEED, 14.5, 14.5, 2);
+                encoderDrive(DRIVE_SPEED, 14.5, 14.5, 6);
                 colorSet(armDown);
-                encoderDrive(DRIVE_SPEED, 2, 2, 3);
+                encoderDrive(DRIVE_SPEED, 2, 2, 8);
                 colorSet(1);
             }
 
         }
 
-        encoderDrive(DRIVE_SPEED, 15, 15, 2.0);  // S3: Reverse 12 Inches with 4 Sec timeout
-        encoderDrive(TURN_SPEED, 15.83, -15.83, 2.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, 51, 51, 2.0);  // S1: Forward 12 Inches with 5 Sec timeout
+        encoderDrive(DRIVE_SPEED, 15, 15, 6.0);  // S3: Reverse 12 Inches with 4 Sec timeout
+        encoderDrive(TURN_SPEED, 15.83, -15.83, 5.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, 51, 51, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
         eatDrive(PAC_SPEED, -2, 4.0);
-        encoderDrive(TURN_SPEED, 9.5, -9.5, 2);
-        encoderDrive(DRIVE_SPEED, 100, 100, 2);
+        encoderDrive(TURN_SPEED, 9.5, -9.5, 5.0);
+        encoderDrive(DRIVE_SPEED, 100, 100, 4.0);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.5))
 

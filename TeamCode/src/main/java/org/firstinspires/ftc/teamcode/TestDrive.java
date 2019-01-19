@@ -45,8 +45,8 @@ public class TestDrive extends LinearOpMode {
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftDrive1.setDirection(DcMotor.Direction.FORWARD);
-        rightDrive1.setDirection(DcMotor.Direction.FORWARD);
+        leftDrive1.setDirection(DcMotor.Direction.REVERSE);
+        rightDrive1.setDirection(DcMotor.Direction.REVERSE);
         leftDrive2.setDirection(DcMotor.Direction.FORWARD);
         rightDrive2.setDirection(DcMotor.Direction.REVERSE);
 
@@ -71,7 +71,7 @@ public class TestDrive extends LinearOpMode {
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
-            double drive = -gamepad1.left_stick_y;
+            double drive =  gamepad1.left_stick_y;
             double turn  =  gamepad1.left_stick_x;
             leftPower    = Range.clip(drive + turn, -0.5, 0.5) ;
             rightPower   = Range.clip(drive - turn, -0.5, 0.5) ;

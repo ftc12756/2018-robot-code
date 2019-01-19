@@ -1,4 +1,5 @@
-package org.firstinspires.ftc.teamcode;/* Copyright (c) 2017 FIRST. All rights reserved.
+package org.firstinspires.ftc.teamcode;
+/* Copyright (c) 2017 FIRST. All rights reserved
  *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted (subject to the limitations in the disclaimer below) provided that
@@ -27,17 +28,17 @@ package org.firstinspires.ftc.teamcode;/* Copyright (c) 2017 FIRST. All rights r
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import android.graphics.Color;
+        import android.graphics.Color;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+        import com.qualcomm.robotcore.hardware.CRServo;
+        import com.qualcomm.robotcore.hardware.DcMotor;
+        import com.qualcomm.robotcore.hardware.DcMotorEx;
+        import com.qualcomm.robotcore.hardware.DcMotorSimple;
+        import com.qualcomm.robotcore.hardware.Servo;
+        import com.qualcomm.robotcore.util.ElapsedTime;
+        import com.qualcomm.robotcore.hardware.ColorSensor;
 
 /**
  * This file illustrates the concept of driving a path based on encoder counts.
@@ -66,9 +67,9 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Autonomous Crater side", group="Pushbot")
+@Autonomous(name="Autonomous Drop and stop", group="Pushbot")
 //@Disabled
-public class Autonomous_Crater extends LinearOpMode {
+public class Autonomous_Drop extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -170,6 +171,7 @@ public class Autonomous_Crater extends LinearOpMode {
         encoderDrive(TURN_SPEED, -1, 1, 2.0);
         encoderDrive(TURN_SPEED, 1, -1, 2.0);
         encoderDrive(TURN_SPEED, -1, 1, 2.0);
+        /*
         encoderDrive(DRIVE_SPEED, 17.75, 17.75, 6.0);  // S1: Forward 12 Inches with 5 Sec timeout
         encoderDrive(TURN_SPEED, -9.5, 9.5, 5.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
         encoderDrive(DRIVE_SPEED, -20, -20, 7.0);
@@ -217,12 +219,13 @@ public class Autonomous_Crater extends LinearOpMode {
         encoderDrive(DRIVE_SPEED, 51, 51, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
         eatDrive(PAC_SPEED, 3, 4.0);
         encoderDrive(DRIVE_SPEED, -100, -100, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
+        */
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.5))
 
-           // sleep(1000);     // pause for servos to move
+            // sleep(1000);     // pause for servos to move
 
-        telemetry.addData("Path", "Complete");
+            telemetry.addData("Path", "Complete");
         telemetry.update();
     }
 
