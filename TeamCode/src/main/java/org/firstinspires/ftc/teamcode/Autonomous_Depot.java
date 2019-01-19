@@ -124,8 +124,8 @@ public class Autonomous_Depot extends LinearOpMode {
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive1.setDirection(DcMotor.Direction.FORWARD);
         rightDrive1.setDirection(DcMotor.Direction.FORWARD);
-        leftDrive2.setDirection(DcMotor.Direction.REVERSE);
-        rightDrive2.setDirection(DcMotor.Direction.FORWARD);
+        leftDrive2.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive2.setDirection(DcMotor.Direction.REVERSE);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
@@ -167,7 +167,7 @@ public class Autonomous_Depot extends LinearOpMode {
         // Reverse the robot so it doesn't go OOF on the lander
         //elevatorDrive(RISE_SPEED, 80, 2);
         //sleep(2000);
-        encoderDrive(DRIVE_SPEED, 20, 20, 4.0);  // S1: Forward 12 Inches with 5 Sec timeout
+        encoderDrive(DRIVE_SPEED, 18.75, 18.75, 4.0);  // S1: Forward 12 Inches with 5 Sec timeout
         encoderDrive(TURN_SPEED, -9.5, 9.5, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
         encoderDrive(DRIVE_SPEED, -20, -20, 4.0);
         double armDown = 0.4;
@@ -210,11 +210,11 @@ public class Autonomous_Depot extends LinearOpMode {
         }
 
         encoderDrive(DRIVE_SPEED, 15, 15, 2.0);  // S3: Reverse 12 Inches with 4 Sec timeout
-        encoderDrive(TURN_SPEED, 4.75, -4.75, 2.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, 38, 38, 2.0);  // Going to Depot
+        encoderDrive(TURN_SPEED, 15.83, -15.83, 2.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, 51, 51, 2.0);  // Going to Depot
         eatDrive(PAC_SPEED, -2, 2); // Dropping mascot off
         encoderDrive(TURN_SPEED, 9.5, -9.5, 2);
-        encoderDrive(DRIVE_SPEED, 92, 92, 2); // Going to crater
+        encoderDrive(DRIVE_SPEED, 100, 100, 4); // Going to crater
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.5))
 
