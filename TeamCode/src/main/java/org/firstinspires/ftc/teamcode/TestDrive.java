@@ -47,8 +47,8 @@ public class TestDrive extends LinearOpMode {
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive1.setDirection(DcMotor.Direction.FORWARD);
         rightDrive1.setDirection(DcMotor.Direction.FORWARD);
-        leftDrive2.setDirection(DcMotor.Direction.REVERSE);
-        rightDrive2.setDirection(DcMotor.Direction.FORWARD);
+        leftDrive2.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive2.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();

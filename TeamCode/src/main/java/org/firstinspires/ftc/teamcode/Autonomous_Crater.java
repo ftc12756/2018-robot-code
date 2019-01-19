@@ -124,8 +124,8 @@ public class Autonomous_Crater extends LinearOpMode {
         // Reverse the motor that runs backwards when connected directly to the battery
         leftDrive1.setDirection(DcMotor.Direction.FORWARD);
         rightDrive1.setDirection(DcMotor.Direction.FORWARD);
-        leftDrive2.setDirection(DcMotor.Direction.REVERSE);
-        rightDrive2.setDirection(DcMotor.Direction.FORWARD);
+        leftDrive2.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive2.setDirection(DcMotor.Direction.REVERSE);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
@@ -163,9 +163,9 @@ public class Autonomous_Crater extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // S1: Forward 12 Inches with 5 Sec timeout
-        elevatorDrive(RISE_SPEED, -120, 4.0);
-        encoderDrive(DRIVE_SPEED, -20, -20, 4.0);  // S1: Forward 12 Inches with 5 Sec timeout
-        encoderDrive(TURN_SPEED, 9.5, -9.5, 3.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
+        elevatorDrive(RISE_SPEED, -140, 5.0);
+        encoderDrive(DRIVE_SPEED, 18.75, 18.75, 4.0);  // S1: Forward 12 Inches with 5 Sec timeout
+        encoderDrive(TURN_SPEED, -9.5, 9.5, 3.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
         encoderDrive(DRIVE_SPEED, -20, -20, 4.0);
         double armDown = 0.4;
         colorSet(armDown);
@@ -206,11 +206,11 @@ public class Autonomous_Crater extends LinearOpMode {
 
         }
 
-        encoderDrive(DRIVE_SPEED, 23, 23, 4.0);  // S3: Reverse 12 Inches with 4 Sec timeout
-        encoderDrive(TURN_SPEED, -4.75, 4.75, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, 55, 55, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
+        encoderDrive(DRIVE_SPEED, 15, 15, 4.0);  // S3: Reverse 12 Inches with 4 Sec timeout
+        encoderDrive(TURN_SPEED, -15.83, -15.83, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, 51, 51, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
         eatDrive(PAC_SPEED, 3, 2);
-        encoderDrive(DRIVE_SPEED, -92, -92, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
+        encoderDrive(DRIVE_SPEED, -100, -100, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.5))
 
