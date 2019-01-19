@@ -163,7 +163,11 @@ public class Autonomous_Depot extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // S1: Forward 12 Inches with 5 Sec timeout
+<<<<<<< HEAD
         elevatorDrive(RISE_SPEED, -140, 6.0);//Step 1: lower the robot arm
+=======
+        elevatorDrive(RISE_SPEED, -150, 6.0);//Step 1: lower the robot arm
+>>>>>>> 29a6070751f286b3084e7c29e230ad9f018cc301
         // Reverse the robot so it doesn't go OOF on the lander
         //elevatorDrive(RISE_SPEED, 80, 2);
         //sleep(2000);
@@ -211,10 +215,17 @@ public class Autonomous_Depot extends LinearOpMode {
 
         encoderDrive(DRIVE_SPEED, 15, 15, 2.0);  // S3: Reverse 12 Inches with 4 Sec timeout
         encoderDrive(TURN_SPEED, 15.83, -15.83, 2.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
+<<<<<<< HEAD
         encoderDrive(DRIVE_SPEED, 51, 51, 2.0);  // S1: Forward 12 Inches with 5 Sec timeout
         eatDrive(PAC_SPEED, -2, 4.0);
         encoderDrive(TURN_SPEED, 9.5, -9.5, 2);
         encoderDrive(DRIVE_SPEED, 100, 100, 2);
+=======
+        encoderDrive(DRIVE_SPEED, 51, 51, 2.0);  // Going to Depot
+        eatDrive(PAC_SPEED, -2, 2); // Dropping mascot off
+        encoderDrive(TURN_SPEED, 9.5, -9.5, 2);
+        encoderDrive(DRIVE_SPEED, 100, 100, 4); // Going to crater
+>>>>>>> 29a6070751f286b3084e7c29e230ad9f018cc301
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.5))
 
