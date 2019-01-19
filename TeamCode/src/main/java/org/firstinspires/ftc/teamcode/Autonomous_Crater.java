@@ -163,11 +163,7 @@ public class Autonomous_Crater extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // S1: Forward 12 Inches with 5 Sec timeout
-<<<<<<< HEAD
         elevatorDrive(RISE_SPEED, -140, 5.0);
-=======
-        elevatorDrive(RISE_SPEED, -140, 6.0);
->>>>>>> 29a6070751f286b3084e7c29e230ad9f018cc301
         encoderDrive(DRIVE_SPEED, 18.75, 18.75, 4.0);  // S1: Forward 12 Inches with 5 Sec timeout
         encoderDrive(TURN_SPEED, -9.5, 9.5, 3.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
         encoderDrive(DRIVE_SPEED, -20, -20, 4.0);
@@ -211,11 +207,7 @@ public class Autonomous_Crater extends LinearOpMode {
         }
 
         encoderDrive(DRIVE_SPEED, 15, 15, 4.0);  // S3: Reverse 12 Inches with 4 Sec timeout
-<<<<<<< HEAD
         encoderDrive(TURN_SPEED, -15.83, -15.83, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
-=======
-        encoderDrive(TURN_SPEED, -15.83, 15.83, 4.0);  // S2: Turn Left 5 Inches with 4 Sec timeout
->>>>>>> 29a6070751f286b3084e7c29e230ad9f018cc301
         encoderDrive(DRIVE_SPEED, 51, 51, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout
         eatDrive(PAC_SPEED, 3, 2);
         encoderDrive(DRIVE_SPEED, -100, -100, 5.0);  // S1: Forward 12 Inches with 5 Sec timeout

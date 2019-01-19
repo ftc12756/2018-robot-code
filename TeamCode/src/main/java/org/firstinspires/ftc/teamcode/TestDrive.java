@@ -67,7 +67,7 @@ public class TestDrive extends LinearOpMode {
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
             double PacPower;
-            double PacScale = 0.3;
+            double PacScale = 0.6;
 
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
