@@ -164,9 +164,9 @@ public class Autonomous_Drop extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         // S1: Forward 12 Inches with 5 Sec timeout
-        elevatorDrive(RISE_SPEED, -230, 8.0); // Detatching from lander
-        encoderDrive(DRIVE_SPEED, 0.5, 0.5, 2.0); // going away from the lander a bit
-        encoderDrive(DRIVE_SPEED, 1, 1, 2.0);
+        elevatorDrive(RISE_SPEED, -200, 8.5); // Detatching from lander
+        encoderDrive(DRIVE_SPEED, -0.5, -0.5, 2.0); // going away from the lander a bit
+        encoderDrive(DRIVE_SPEED, -1, -1, 2.0);
         encoderDrive(TURN_SPEED, 1, -1, 2.0); // Wiggling robot
         encoderDrive(TURN_SPEED, -1, 1, 2.0);
         encoderDrive(TURN_SPEED, 1, -1, 2.0);
